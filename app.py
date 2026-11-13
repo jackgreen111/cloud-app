@@ -7,7 +7,7 @@ from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
 
-TITLE = "Cloud Technologies"
+TITLE = "Cloud Technologies Laboratory"
 VERSION = os.getenv("APP_VERSION", "1.0.0")
 GIT_SHA = os.getenv("GIT_SHA", "local")
 STARTED_AT = datetime.now()
