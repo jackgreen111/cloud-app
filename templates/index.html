@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<style>
+  :root {
+    --bg: #0b1020; --card: #141b34; --line: #232c52;
+    --text: #e8ecff; --muted: #94a0cc;
+    --a: #6c8cff; --b: #22d3ee; --ok: #34d399; --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #1d2a6b55, transparent),
+                radial-gradient(900px 500px at -10% 10%, #0e7c9a33, transparent), var(--bg);
+    color: var(--text); line-height: 1.5;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  .logo { font-weight: 700; font-size: 18px; display: flex; gap: 10px; align-items: center; }
+  .logo i { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, var(--a), var(--b)); display: inline-block; }
+  nav a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 14px; }
+  nav a:hover { color: var(--text); }
+  .hero { padding: 50px 0 36px; text-align: center; }
+  .badge { display: inline-flex; gap: 8px; align-items: center; background: #34d39922; color: var(--ok);
+           border: 1px solid #34d39955; padding: 6px 14px; border-radius: 999px; font-size: 13px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 #34d39988; } 100% { box-shadow: 0 0 0 10px #34d39900; } }
+  h1 { font-size: clamp(34px, 6vw, 60px); margin: 18px 0 12px; line-height: 1.1;
+       background: linear-gradient(90deg, #fff, var(--b) 60%, var(--a)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 auto 26px; font-size: 17px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { background: var(--card); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; font-size: 13px; color: var(--muted); }
+  h2 { font-size: 22px; margin: 46px 0 16px; }
+  h2 span { color: var(--muted); font-weight: 400; font-size: 14px; margin-left: 8px; }
+  .grid { display: grid; gap: 16px; }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card { background: linear-gradient(180deg, #172044, var(--card)); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .k { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .v { font-size: 24px; font-weight: 700; margin-top: 6px; word-break: break-all; }
+  .v.small { font-size: 18px; }
+  .pipe { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+          font-size: 14px; display: flex; gap: 8px; align-items: center; opacity: 0; animation: in .5s forwards; }
+  .step b { color: var(--ok); }
+  .arrow { color: var(--muted); }
+  @keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .donut-box { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .donut { position: relative; width: 150px; height: 150px; }
+  .donut svg { transform: rotate(-90deg); }
+  .donut .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 30px; font-weight: 700; }
+  .legend div { margin: 6px 0; color: var(--muted); font-size: 14px; }
+  .legend b { color: var(--text); }
+  .bars .row { display: grid; grid-template-columns: 54px 1fr 36px; gap: 10px; align-items: center; margin: 8px 0; font-size: 13px; color: var(--muted); }
+  .track { background: #0d1330; border-radius: 8px; height: 12px; overflow: hidden; }
+  .fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--a), var(--b)); }
+  .fill.cur { background: linear-gradient(90deg, var(--warn), #f97316); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .tag { padding: 3px 10px; border-radius: 999px; font-size: 12px; }
+  .tag.ok { background: #34d39922; color: var(--ok); }
+  .tag.wip { background: #fbbf2422; color: var(--warn); }
+  footer { color: var(--muted); text-align: center; font-size: 13px; padding: 50px 0 30px; }
+  footer a { color: var(--b); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><i></i>{{ title }}</div>
+    <div><a href="#deploy">Деплой</a><a href="#pipeline">Pipeline</a><a href="#labs">Лабораторные</a><a href="/api/status">API</a></div>
+  </nav>
+
+  <header class="hero">
+    <span class="badge"><span class="dot"></span>Deployed &middot; CI/CD работает</span>
+    <h1>{{ title }}</h1>
+    <p class="sub">Облачное приложение, которое автоматически тестируется, собирается в Docker-образ и разворачивается при каждом push в репозиторий.</p>
+    <div class="chips">{% for t in tech %}<span class="chip">{{ t }}</span>{% endfor %}</div>
+  </header>
+
+  <section id="deploy">
+    <h2>Статус развёртывания <span>обновляется автоматически</span></h2>
+    <div class="grid g4">
+      <div class="card"><div class="k">Статус</div><div class="v" id="st" style="color:var(--ok)">● {{ status.status }}</div></div>
+      <div class="card"><div class="k">Версия</div><div class="v">v{{ status.version }}</div></div>
+      <div class="card"><div class="k">Коммит</div><div class="v">{{ status.commit }}</div></div>
+      <div class="card"><div class="k">Аптайм</div><div class="v" id="up">{{ status.uptime_seconds }} с</div></div>
+      <div class="card"><div class="k">Контейнер (hostname)</div><div class="v small">{{ status.hostname }}</div></div>
+      <div class="card"><div class="k">Запущен</div><div class="v small">{{ status.started_at }}</div></div>
+    </div>
+  </section>
+
+  <section id="pipeline">
+    <h2>CI/CD Pipeline <span>{{ pipeline|length }} этапов</span></h2>
+    <div class="card pipe">
+      {% for s in pipeline %}
+        <div class="step" style="animation-delay: {{ loop.index0 * 0.18 }}s"><b>✔</b>{{ s }}</div>
+        {% if not loop.last %}<span class="arrow">→</span>{% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="labs">
+    <h2>Прогресс лабораторных <span>{{ done }} из {{ total }}</span></h2>
+    <div class="grid g2">
+      <div class="card">
+        <div class="donut-box">
+          <div class="donut">
+            <svg width="150" height="150" viewBox="0 0 120 120">
+              <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6c8cff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#0d1330" stroke-width="12"/>
+              <circle cx="60" cy="60" r="52" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round"
+                      stroke-dasharray="{{ dash }} {{ circumference }}"/>
+            </svg>
+            <div class="num">{{ percent }}%</div>
+          </div>
+          <div class="legend">
+            <div>Выполнено: <b>{{ done }}</b></div>
+            <div>В процессе: <b>{{ total - done }}</b></div>
+            <div>Всего часов: <b>{{ total_hours }}</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="card bars">
+        <div class="k" style="margin-bottom:6px">Часы по лабораторным</div>
+        {% for lab in labs %}
+          <div class="row"><span>ЛР №{{ lab.n }}</span>
+            <div class="track"><div class="fill {{ '' if lab.done else 'cur' }}" style="width: {{ (lab.hours * 100 / max_hours)|round|int }}%"></div></div>
+            <span>{{ lab.hours }} ч</span></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px; overflow-x:auto">
+      <table>
+        <tr><th>№</th><th>Тема</th><th>Часы</th><th>Статус</th></tr>
+        {% for lab in labs %}
+        <tr><td>{{ lab.n }}</td><td>{{ lab.title }}</td><td>{{ lab.hours }}</td>
+            <td><span class="tag {{ 'ok' if lab.done else 'wip' }}">{{ 'Выполнено' if lab.done else 'В процессе' }}</span></td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <footer>{{ title }} &middot; Лабораторная работа №11 &middot; <a href="/api/status">/api/status</a> &middot; <a href="/health">/health</a></footer>
+</div>
+
+<script>
+  async function refresh() {
+    try {
+      const r = await fetch("/api/status");
+      const d = await r.json();
+      document.getElementById("up").textContent = d.uptime_seconds + " с";
+      document.getElementById("st").textContent = "● " + d.status;
+    } catch (e) {
+      document.getElementById("st").textContent = "● offline";
+    }
+  }
+  setInterval(refresh, 3000);
+</script>
+</body>
+</html>
